@@ -3,238 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PixelSize - Calculateur de Taille de Pixel</title>
+    <title>Photogrammétrie - Calculateur GSD</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow-x: hidden; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0a0a0a;
-            color: #e5e5e5;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            margin: 0;
+            background: #0a0a0a; color: #e5e5e5; min-height: 100vh;
+            margin: 0; padding: 20px;
         }
-
-        .container {
-            background: #111111;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 800px;
-            width: 100%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        .logo-section {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .logo {
-            max-width: 200px;
-            max-height: 80px;
-            margin: 0 auto;
-            display: block;
-            filter: brightness(0.9);
-        }
-
-        h1 {
-            text-align: center;
-            color: #ffffff;
-            margin-bottom: 10px;
-            font-size: 2.2em;
-            font-weight: 300;
-            letter-spacing: -0.02em;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #b3b3b3;
-            font-size: 0.95em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        input[type="number"], select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            font-size: 1em;
-            background: #1a1a1a;
-            color: #ffffff;
-            transition: all 0.2s ease;
-        }
-
-        input[type="number"]:focus, select:focus {
-            outline: none;
-            border-color: #4a9eff;
-            box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.1);
-            background: #1f1f1f;
-        }
-
-        input[type="number"]:hover, select:hover {
-            border-color: #3a3a3a;
-        }
-
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .calculate-btn {
-            width: 100%;
-            padding: 16px;
-            background: #4a9eff;
-            color: #000000;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin: 30px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .calculate-btn:hover {
-            background: #3d8ce6;
-            transform: translateY(-1px);
-        }
-
-        .calculate-btn:active {
-            transform: translateY(0);
-        }
-
-        .results {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            padding: 24px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .results.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .result-item:last-child {
-            border-bottom: none;
-        }
-
-        .result-label {
-            font-weight: 500;
-            color: #b3b3b3;
-            font-size: 0.9em;
-        }
-
-        .result-value {
-            font-weight: 600;
-            color: #4a9eff;
-            font-size: 1em;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-        }
-
-        .formula {
-            background: #1a1a1a;
-            border-left: 3px solid #4a9eff;
-            padding: 16px;
-            margin: 20px 0;
-            border-radius: 4px;
-            font-size: 0.9em;
-            color: #b3b3b3;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-        }
-
-        .info {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
-            color: #b3b3b3;
-            font-size: 0.9em;
-        }
-
-        .top-nav {
-            text-align: center;
-            margin-top: 10px;
-            color: #888;
-            font-size: 0.9em;
-        }
-
-        .top-nav a {
-            color: #4a9eff;
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            .input-row {
-                grid-template-columns: 1fr;
-            }
-            .container {
-                padding: 20px;
-            }
-            h1 {
-                font-size: 2em;
-            }
-        }
+        .container { background: #0a0a0a; padding: 20px; width: 100%; min-height: 100%; }
+        .logo-section { text-align: center; margin-bottom: 40px; }
+        .logo { max-width: 200px; max-height: 80px; margin: 0 auto; display: block; filter: brightness(0.9); }
+        h1 { text-align: center; color: #ffffff; margin-bottom: 10px; font-size: 2.2em; font-weight: 300; letter-spacing: -0.02em; }
+        .form-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; color: #b3b3b3; font-size: 0.95em; text-transform: uppercase; letter-spacing: 0.5px; }
+        input[type="number"], select { width: 100%; padding: 12px 16px; border: 1px solid #2a2a2a; border-radius: 8px; font-size: 1em; background: #1a1a1a; color: #ffffff; transition: all 0.2s ease; }
+        input[type="number"]:focus, select:focus { outline: none; border-color: #4a9eff; box-shadow: 0 0 0 2px rgba(74,158,255,0.1); background: #1f1f1f; }
+        input[type="number"]:hover, select:hover { border-color: #3a3a3a; }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .calculate-btn { width: 100%; padding: 16px; background: #4a9eff; color: #000; border: none; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin: 30px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .calculate-btn:hover { background: #3d8ce6; transform: translateY(-1px); }
+        .calculate-btn:active { transform: translateY(0); }
+        .results { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 24px; margin-top: 20px; display: none; }
+        .results.show { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from {opacity:0; transform: translateY(10px);} to {opacity:1; transform: translateY(0);} }
+        .result-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #2a2a2a; }
+        .result-item:last-child { border-bottom: none; }
+        .result-label { font-weight: 500; color: #b3b3b3; font-size: 0.9em; }
+        .result-value { font-weight: 600; color: #4a9eff; font-size: 1em; font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; }
+        .formula { background: #1a1a1a; border-left: 3px solid #4a9eff; padding: 16px; margin: 20px 0; border-radius: 4px; font-size: 0.9em; color: #b3b3b3; font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; }
+        .info { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; padding: 16px; margin-bottom: 20px; color: #b3b3b3; font-size: 0.9em; }
+        .top-nav { text-align: center; margin-top: 10px; color: #888; font-size: 0.9em; }
+        .top-nav a { color: #4a9eff; text-decoration: none; }
+        @media (max-width: 768px) { .input-row { grid-template-columns: 1fr; } h1 { font-size: 2em; } }
     </style>
-    <meta name="description" content="Orthovue - Calcul de taille de pixel à partir du DPI et de l'échelle.">
+    <meta name="description" content="Photogrammétrie - Calcul GSD en fonction du capteur, objectif et altitude.">
 </head>
 <body>
     <div class="container">
         <div class="logo-section">
             <img src="121_50_web.png" alt="450ppm Logo" class="logo">
         </div>
+        <h1>Photogrammétrie · Calcul GSD</h1>
+        <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 0.9em;">Calculez la taille de pixel au sol</p>
 
-        <h1>PixelSize · Taille de Pixel</h1>
-        <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 0.9em;">Pour le calcul d'orthovues</p>
-
-        <div class="info">
-            <strong>Information :</strong> Cette application calcule la taille de pixel nécessaire pour une orthovue en fonction de l'échelle désirée et de la résolution (DPI).
+        <div class="top-nav">
+            <span>Besoin de l'orthovue ? </span><a href="https://<votre-utilisateur>.github.io/OrthoScale/">Outil Orthovue</a>
         </div>
 
-        <form id="pixelCalculator">
+        <div class="info">
+            <strong>Information :</strong> Calculez la taille de pixel au sol (GSD) en fonction de votre capteur, objectif et distance au sol.
+        </div>
+
+        <form id="photogrammetrieCalculator">
+            <div class="form-group">
+                <label for="capteur">Type de capteur</label>
+                <select id="capteur" name="capteur" required>
+                    <option value="">Sélectionnez un capteur</option>
+                    <option value="fullframe">Full Frame (36×24 mm)</option>
+                    <option value="aps-c">APS-C Canon (22.3×14.9 mm)</option>
+                    <option value="aps-c-nikon">APS-C Nikon/Sony (23.5×15.6 mm)</option>
+                    <option value="micro43">Micro 4/3 (17.3×13.0 mm)</option>
+                    <option value="1inch">1" (13.2×8.8 mm)</option>
+                    <option value="custom">Capteur personnalisé</option>
+                </select>
+            </div>
+
+            <div id="customSensor" class="form-group" style="display: none;">
+                <div class="input-row">
+                    <div class="form-group">
+                        <label for="sensorWidth">Largeur capteur (mm)</label>
+                        <input type="number" id="sensorWidth" name="sensorWidth" placeholder="Ex: 36" min="0.1" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="sensorHeight">Hauteur capteur (mm)</label>
+                        <input type="number" id="sensorHeight" name="sensorHeight" placeholder="Ex: 24" min="0.1" step="0.1">
+                    </div>
+                </div>
+            </div>
+
             <div class="input-row">
                 <div class="form-group">
-                    <label for="dpi">Résolution (DPI)</label>
-                    <input type="number" id="dpi" name="dpi" placeholder="Ex: 150" min="1" step="0.1" required>
+                    <label for="focalLength">Distance focale (mm)</label>
+                    <input type="number" id="focalLength" name="focalLength" placeholder="Ex: 50" min="1" step="0.1" required>
                 </div>
                 <div class="form-group">
-                    <label for="scale">Échelle désirée (1/X)</label>
-                    <input type="number" id="scale" name="scale" placeholder="Ex: 20" min="1" step="0.1" required>
+                    <label for="altitude">Distance au sol (m)</label>
+                    <input type="number" id="altitude" name="altitude" placeholder="Ex: 100" min="0.1" step="0.1" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="megapixels">Nombre de mégapixels</label>
+                <select id="megapixels" name="megapixels" required>
+                    <option value="">Sélectionnez le nombre de MP</option>
+                    <option value="12">12 MP (4000×3000)</option>
+                    <option value="16">16 MP (4608×3456)</option>
+                    <option value="20">20 MP (5472×3648)</option>
+                    <option value="24">24 MP (6000×4000)</option>
+                    <option value="30">30 MP (6720×4480)</option>
+                    <option value="36">36 MP (7360×4912)</option>
+                    <option value="42">42 MP (7952×5304)</option>
+                    <option value="45">45 MP (8256×5504)</option>
+                    <option value="50">50 MP (8688×5792)</option>
+                    <option value="61">61 MP (9504×6336)</option>
+                    <option value="custom">Résolution personnalisée</option>
+                </select>
+            </div>
+
+            <div id="customResolution" class="form-group" style="display: none;">
+                <div class="input-row">
+                    <div class="form-group">
+                        <label for="resolutionX">Résolution horizontale (px)</label>
+                        <input type="number" id="resolutionX" name="resolutionX" placeholder="Ex: 6000" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="resolutionY">Résolution verticale (px)</label>
+                        <input type="number" id="resolutionY" name="resolutionY" placeholder="Ex: 4000" min="1">
+                    </div>
                 </div>
             </div>
 
@@ -242,77 +129,135 @@
         </form>
 
         <div class="formula">
-            <strong>Formule utilisée :</strong><br>
-            Taille de pixel (cm) = (2.54 / DPI) × Échelle<br>
-            Taille de pixel (m) = Taille de pixel (cm) / 100
+            <strong>Formule GSD (Ground Sample Distance) :</strong><br>
+            GSD (m) = (Distance au sol × Taille de pixel capteur) / Distance focale<br>
+            Taille de pixel capteur (mm) = Taille capteur (mm) / Résolution (px)
         </div>
 
-        <div id="results" class="results">
+        <div id="photogrammetrieResults" class="results">
             <h3 style="margin-bottom: 20px; color: #ffffff;">Résultats du calcul</h3>
-            <div class="result-item">
-                <span class="result-label">Résolution (DPI)</span>
-                <span class="result-value" id="resultDpi">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Distance (2.54 cm)</span>
-                <span class="result-value">2,54</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Sur 1 cm</span>
-                <span class="result-value" id="resultPerCm">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Échelle 1/X</span>
-                <span class="result-value" id="resultScale">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Taille de pixel (cm)</span>
-                <span class="result-value" id="resultPixelCm">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Taille de pixel (m)</span>
-                <span class="result-value" id="resultPixelM">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Arrondi 6 chiffres (m)</span>
-                <span class="result-value" id="resultRounded">-</span>
-            </div>
+            <div class="result-item"><span class="result-label">Capteur sélectionné</span><span class="result-value" id="resultSensor">-</span></div>
+            <div class="result-item"><span class="result-label">Distance focale (mm)</span><span class="result-value" id="resultFocal">-</span></div>
+            <div class="result-item"><span class="result-label">Distance au sol (m)</span><span class="result-value" id="resultAltitude">-</span></div>
+            <div class="result-item"><span class="result-label">Résolution (px)</span><span class="result-value" id="resultResolution">-</span></div>
+            <div class="result-item"><span class="result-label">Taille de pixel capteur (mm)</span><span class="result-value" id="resultPixelSensor">-</span></div>
+            <div class="result-item"><span class="result-label">GSD (cm)</span><span class="result-value" id="resultPixelGroundCm">-</span></div>
+            <div class="result-item"><span class="result-label">GSD (m)</span><span class="result-value" id="resultPixelGroundM">-</span></div>
+            <div class="result-item"><span class="result-label">Couverture au sol (m)</span><span class="result-value" id="resultCoverage">-</span></div>
         </div>
     </div>
 
     <script>
-        document.getElementById('pixelCalculator').addEventListener('submit', function(e) {
+        const sensors = {
+            'fullframe': { width: 36, height: 24, name: 'Full Frame (36×24 mm)' },
+            'aps-c': { width: 22.3, height: 14.9, name: 'APS-C Canon (22.3×14.9 mm)' },
+            'aps-c-nikon': { width: 23.5, height: 15.6, name: 'APS-C Nikon/Sony (23.5×15.6 mm)' },
+            'micro43': { width: 17.3, height: 13.0, name: 'Micro 4/3 (17.3×13.0 mm)' },
+            '1inch': { width: 13.2, height: 8.8, name: '1" (13.2×8.8 mm)' }
+        };
+
+        const resolutions = {
+            '12': { x: 4000, y: 3000 },
+            '16': { x: 4608, y: 3456 },
+            '20': { x: 5472, y: 3648 },
+            '24': { x: 6000, y: 4000 },
+            '30': { x: 6720, y: 4480 },
+            '36': { x: 7360, y: 4912 },
+            '42': { x: 7952, y: 5304 },
+            '45': { x: 8256, y: 5504 },
+            '50': { x: 8688, y: 5792 },
+            '61': { x: 9504, y: 6336 }
+        };
+
+        document.getElementById('capteur').addEventListener('change', function() {
+            const customSensor = document.getElementById('customSensor');
+            customSensor.style.display = this.value === 'custom' ? 'block' : 'none';
+        });
+
+        document.getElementById('megapixels').addEventListener('change', function() {
+            const customResolution = document.getElementById('customResolution');
+            customResolution.style.display = this.value === 'custom' ? 'block' : 'none';
+        });
+
+        document.getElementById('photogrammetrieCalculator').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const dpi = parseFloat(document.getElementById('dpi').value);
-            const scale = parseFloat(document.getElementById('scale').value);
+            const capteurType = document.getElementById('capteur').value;
+            const focalLength = parseFloat(document.getElementById('focalLength').value);
+            const altitude = parseFloat(document.getElementById('altitude').value);
+            const megapixels = document.getElementById('megapixels').value;
 
-            if (isNaN(dpi) || isNaN(scale) || dpi <= 0 || scale <= 0) {
-                alert('Veuillez entrer des valeurs valides pour DPI et Échelle');
+            if (!capteurType || isNaN(focalLength) || isNaN(altitude) || !megapixels) {
+                alert('Veuillez remplir tous les champs obligatoires');
+                return;
+            }
+            if (focalLength <= 0 || altitude <= 0) {
+                alert('Veuillez entrer des valeurs positives');
                 return;
             }
 
-            const distance = 2.54; // cm
-            const perCm = dpi / distance;
-            const pixelSizeCm = distance / dpi * scale;
-            const pixelSizeM = pixelSizeCm / 100;
-            const rounded = Math.round(pixelSizeM * 1000000) / 1000000; // 6 décimales
+            let sensorWidth, sensorHeight, sensorName;
+            if (capteurType === 'custom') {
+                sensorWidth = parseFloat(document.getElementById('sensorWidth').value);
+                sensorHeight = parseFloat(document.getElementById('sensorHeight').value);
+                sensorName = `Personnalisé (${sensorWidth}×${sensorHeight} mm)`;
+                if (isNaN(sensorWidth) || isNaN(sensorHeight) || sensorWidth <= 0 || sensorHeight <= 0) {
+                    alert('Veuillez entrer des dimensions de capteur valides');
+                    return;
+                }
+            } else {
+                const sensor = sensors[capteurType];
+                sensorWidth = sensor.width;
+                sensorHeight = sensor.height;
+                sensorName = sensor.name;
+            }
 
-            document.getElementById('resultDpi').textContent = dpi;
-            document.getElementById('resultPerCm').textContent = perCm.toFixed(8);
-            document.getElementById('resultScale').textContent = scale;
-            document.getElementById('resultPixelCm').textContent = pixelSizeCm.toFixed(9);
-            document.getElementById('resultPixelM').textContent = pixelSizeM.toFixed(9);
-            document.getElementById('resultRounded').textContent = rounded.toFixed(6);
+            let resolutionX, resolutionY;
+            if (megapixels === 'custom') {
+                resolutionX = parseInt(document.getElementById('resolutionX').value);
+                resolutionY = parseInt(document.getElementById('resolutionY').value);
+                if (isNaN(resolutionX) || isNaN(resolutionY) || resolutionX <= 0 || resolutionY <= 0) {
+                    alert('Veuillez entrer des résolutions valides');
+                    return;
+                }
+            } else {
+                const resolution = resolutions[megapixels];
+                resolutionX = resolution.x;
+                resolutionY = resolution.y;
+            }
 
-            document.getElementById('results').classList.add('show');
+            const pixelSizeSensorX = sensorWidth / resolutionX; // mm/px
+            const pixelSizeSensorY = sensorHeight / resolutionY; // mm/px
+            const pixelSizeSensor = (pixelSizeSensorX + pixelSizeSensorY) / 2; // moyenne
+
+            const pixelSizeGroundM = (altitude * pixelSizeSensor) / focalLength; // m/px
+            const pixelSizeGroundCm = pixelSizeGroundM * 100; // cm/px
+
+            const coverageX = (altitude * sensorWidth) / focalLength; // m
+            const coverageY = (altitude * sensorHeight) / focalLength; // m
+            const coverage = `${coverageX.toFixed(1)} × ${coverageY.toFixed(1)}`;
+
+            document.getElementById('resultSensor').textContent = sensorName;
+            document.getElementById('resultFocal').textContent = focalLength;
+            document.getElementById('resultAltitude').textContent = altitude;
+            document.getElementById('resultResolution').textContent = `${resolutionX} × ${resolutionY}`;
+            document.getElementById('resultPixelSensor').textContent = pixelSizeSensor.toFixed(6);
+            document.getElementById('resultPixelGroundCm').textContent = pixelSizeGroundCm.toFixed(6);
+            document.getElementById('resultPixelGroundM').textContent = pixelSizeGroundM.toFixed(6);
+            document.getElementById('resultCoverage').textContent = coverage;
+
+            document.getElementById('photogrammetrieResults').classList.add('show');
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('dpi').value = '150';
-            document.getElementById('scale').value = '20';
+            document.getElementById('capteur').value = 'fullframe';
+            document.getElementById('focalLength').value = '50';
+            document.getElementById('altitude').value = '100';
+            document.getElementById('megapixels').value = '24';
         });
     </script>
 </body>
 </html>
+
+
 
