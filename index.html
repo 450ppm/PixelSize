@@ -1,820 +1,238 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PixelSize - Calculateur de Taille de Pixel</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; overflow-x: hidden; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-<<<<<<< HEAD
-            background: #0a0a0a;
-            color: #e5e5e5;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-=======
-<<<<<<< HEAD
-            background: #0a0a0a;
-            color: #e5e5e5;
-            min-height: 100vh;
-            display: block;
-            padding: 0;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            margin: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PixelSize - Calculateur de Taille de Pixel</title>
+  <meta name="description" content="Orthovue - Calcul de taille de pixel à partir du DPI et de l'échelle.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; overflow-x: hidden; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      color: #e5e5e5;
+      min-height: 100vh;
+    }
+    .container {
+      padding: 32px 24px 48px;
+      max-width: 960px;
+      width: 100%;
+      min-height: 100vh;
+      margin: 0 auto;
+    }
+    .logo-section { text-align: center; margin-bottom: 16px; }
+    .logo { width: 140px; height: auto; max-height: 56px; margin: 0 auto; display: block; filter: brightness(0.9); }
+    h1 { text-align: center; color: #fff; margin-bottom: 6px; font-size: 2.2em; font-weight: 300; letter-spacing: -0.02em; }
+    .subtitle { text-align:center; color:#888; margin-bottom: 28px; font-size: 0.95em; }
 
-        .container {
-<<<<<<< HEAD
-            background: #111111;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            padding: 40px;
-            max-width: 800px;
-            width: 100%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-=======
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            padding: 32px 24px 48px;
-            max-width: 960px;
-            width: 100%;
-            min-height: 100vh;
-            margin: 0 auto;
-            box-shadow: none;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-        }
+    .form-group { margin-bottom: 16px; }
+    label { display:block; margin-bottom:6px; font-weight:500; color:#b3b3b3; font-size:0.95em; text-transform:uppercase; letter-spacing:.5px; }
+    input[type="number"] {
+      width:100%; padding:12px 16px; border:1px solid #2a2a2a; border-radius:10px;
+      font-size:1em; background:#1a1a1a; color:#fff; transition:.2s;
+    }
+    input[type="number"]:focus { outline:none; border-color:#4a9eff; box-shadow:0 0 0 2px rgba(74,158,255,.1); background:#1f1f1f; }
+    input[type="number"]:hover { border-color:#3a3a3a; }
+    .input-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:6px; }
 
-        .logo-section {
-            text-align: center;
-<<<<<<< HEAD
-            margin-bottom: 40px;
-        }
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+    .chip{border:1px solid #2a2a2a;color:#bfbfbf;background:#141414;padding:6px 10px;border-radius:999px;font-size:.9em;cursor:pointer;user-select:none}
+    .chip:hover{border-color:#3a3a3a;color:#ddd}
 
-        .logo {
-            max-width: 200px;
-            max-height: 80px;
-=======
-            margin-bottom: 16px;
-        }
+    .calculate-btn {
+      width:100%; padding:16px; background:#4a9eff; color:#000; border:none; border-radius:10px;
+      font-size:1em; font-weight:600; cursor:pointer; transition:.2s; margin:20px 0 8px; text-transform:uppercase; letter-spacing:.5px;
+    }
+    .calculate-btn:hover { background:#3d8ce6; transform:translateY(-1px); }
+    .calculate-btn:active { transform:translateY(0); }
 
-        .logo {
-            width: 140px;
-            height: auto;
-            max-height: 56px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            margin: 0 auto;
-            display: block;
-            filter: brightness(0.9);
-        }
+    .results { background:#131313; border:1px solid #2a2a2a; border-radius:14px; padding:18px; margin-top:18px; display:none; }
+    .results.show { display:block; animation:fadeIn .3s ease; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
 
-        h1 {
-            text-align: center;
-            color: #ffffff;
-<<<<<<< HEAD
-            margin-bottom: 10px;
-=======
-            margin-bottom: 6px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            font-size: 2.2em;
-            font-weight: 300;
-            letter-spacing: -0.02em;
-        }
-<<<<<<< HEAD
+    .tabs{ display:flex; gap:8px; margin-bottom:12px; }
+    .tab{ flex:1; text-align:center; padding:10px 12px; border:1px solid #2a2a2a; border-radius:10px; background:#171717; color:#ddd; cursor:pointer; user-select:none; transition:.2s; }
+    .tab[aria-selected="true"]{ background:#0f1a26; border-color:#244a77; color:#cfe5ff; }
 
-        .form-group {
-            margin-bottom: 25px;
-=======
-        .subtitle{
-            text-align:center;
-            color: #888;
-            margin-bottom: 28px;
-            font-size: 0.95em;
-        }
+    .kpi{ display:flex; align-items:baseline; justify-content:center; gap:10px; padding:10px 0 6px; margin-bottom:8px; }
+    .kpi .number{ font-size: clamp(28px, 6vw, 54px); font-weight:700; letter-spacing:-0.02em; color:#4a9eff; font-family:'SF Mono', Monaco, 'Cascadia Code', monospace; }
+    .kpi .unit{ font-size: clamp(14px, 2vw, 20px); color:#b3b3b3; font-weight:500; }
 
-        .form-group {
-            margin-bottom: 16px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-        }
+    .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:8px; }
+    .card{ background:#101010; border:1px solid #2a2a2a; border-radius:10px; padding:12px; }
+    .card h4{ font-size:.9em; color:#b3b3b3; margin-bottom:6px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+    .card .value{ font-family:'SF Mono', Monaco, 'Cascadia Code', monospace; color:#e9f2ff; font-weight:600; font-size:1.1em; }
 
-        label {
-            display: block;
-<<<<<<< HEAD
-            margin-bottom: 8px;
-=======
-            margin-bottom: 6px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            font-weight: 500;
-            color: #b3b3b3;
-            font-size: 0.95em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+    .formula { background:#101010; border-left:3px solid #4a9eff; padding:14px; margin:14px 0 0; border-radius:6px; font-size:.9em; color:#b3b3b3; font-family:'SF Mono', Monaco, 'Cascadia Code', monospace; }
 
-        input[type="number"], select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #2a2a2a;
-<<<<<<< HEAD
-            border-radius: 8px;
-=======
-            border-radius: 10px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            font-size: 1em;
-            background: #1a1a1a;
-            color: #ffffff;
-            transition: all 0.2s ease;
-        }
+    details.info{ background:#101010; border:1px solid #2a2a2a; border-radius:10px; padding:12px 14px; margin-bottom:14px; color:#b3b3b3; font-size:.95em; }
+    details.info>summary{ cursor:pointer; color:#cfcfcf; font-weight:600; margin-bottom:8px; }
 
-        input[type="number"]:focus, select:focus {
-            outline: none;
-            border-color: #4a9eff;
-            box-shadow: 0 0 0 2px rgba(74, 158, 255, 0.1);
-            background: #1f1f1f;
-        }
-
-        input[type="number"]:hover, select:hover {
-            border-color: #3a3a3a;
-        }
-
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .calculate-btn {
-            width: 100%;
-            padding: 16px;
-            background: #4a9eff;
-            color: #000000;
-            border: none;
-<<<<<<< HEAD
-            border-radius: 8px;
-=======
-            border-radius: 10px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-<<<<<<< HEAD
-            margin: 30px 0;
-=======
-            margin: 20px 0 8px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .calculate-btn:hover {
-            background: #3d8ce6;
-            transform: translateY(-1px);
-        }
-
-        .calculate-btn:active {
-            transform: translateY(0);
-        }
-
-<<<<<<< HEAD
-        .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-        .chip {
-            border: 1px solid #2a2a2a;
-            color: #bfbfbf;
-            background: #141414;
-            padding: 6px 10px;
-            border-radius: 999px;
-            font-size: 0.9em;
-            cursor: pointer;
-            user-select: none;
-        }
-        .chip:hover { border-color: #3a3a3a; color: #ddd; }
-
-        .results {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            padding: 24px;
-            margin-top: 20px;
-=======
-        .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-        .chip{
-            border:1px solid #2a2a2a;
-            color: #bfbfbf;
-            background:#141414;
-            padding:6px 10px;
-            border-radius:999px;
-            font-size:0.9em;
-            cursor:pointer;
-            user-select:none;
-        }
-        .chip:hover{border-color:#3a3a3a;color:#ddd}
-
-        .results {
-            background: #131313;
-            border: 1px solid #2a2a2a;
-            border-radius: 14px;
-            padding: 18px;
-            margin-top: 18px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            display: none;
-        }
-
-        .results.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-<<<<<<< HEAD
-        .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #2a2a2a;
-        }
-
-        .result-item:last-child {
-            border-bottom: none;
-        }
-
-        .result-label {
-            font-weight: 500;
-            color: #b3b3b3;
-            font-size: 0.9em;
-        }
-
-        .result-value {
-            font-weight: 600;
-            color: #4a9eff;
-            font-size: 1em;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-        }
-
-        .formula {
-            background: #1a1a1a;
-            border-left: 3px solid #4a9eff;
-            padding: 16px;
-            margin: 20px 0;
-            border-radius: 4px;
-=======
-        .tabs{
-            display:flex;
-            gap:8px;
-            margin-bottom: 12px;
-        }
-        .tab{
-            flex:1;
-            text-align:center;
-            padding:10px 12px;
-            border:1px solid #2a2a2a;
-            border-radius:10px;
-            background:#171717;
-            color:#ddd;
-            cursor:pointer;
-            user-select:none;
-            transition:.2s;
-        }
-        .tab[aria-selected="true"]{
-            background:#0f1a26;
-            border-color:#244a77;
-            color:#cfe5ff;
-        }
-
-        .kpi{
-            display:flex;
-            align-items: baseline;
-            justify-content:center;
-            gap:10px;
-            padding: 10px 0 6px;
-            margin-bottom: 8px;
-        }
-        .kpi .number{
-            font-size: clamp(28px, 6vw, 54px);
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: #4a9eff;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-        }
-        .kpi .unit{
-            font-size: clamp(14px, 2vw, 20px);
-            color: #b3b3b3;
-            font-weight: 500;
-        }
-
-        .cards{
-            display:grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap:12px;
-            margin-top: 8px;
-        }
-        .card{
-            background:#101010;
-            border:1px solid #2a2a2a;
-            border-radius:10px;
-            padding:12px;
-        }
-        .card h4{
-            font-size:0.9em;
-            color: #b3b3b3;
-            margin-bottom:6px;
-            font-weight:600;
-            text-transform: uppercase;
-            letter-spacing:.5px;
-        }
-        .card .value{
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-            color:#e9f2ff;
-            font-weight:600;
-            font-size:1.1em;
-        }
-
-        .formula {
-            background: #101010;
-            border-left: 3px solid #4a9eff;
-            padding: 14px;
-            margin: 14px 0 0;
-            border-radius: 6px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            font-size: 0.9em;
-            color: #b3b3b3;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
-        }
-
-<<<<<<< HEAD
-        .info {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
-            color: #b3b3b3;
-            font-size: 0.9em;
-=======
-        details.info {
-            background: #101010;
-            border: 1px solid #2a2a2a;
-            border-radius: 10px;
-            padding: 12px 14px;
-            margin-bottom: 14px;
-            color: #b3b3b3;
-            font-size: 0.95em;
-        }
-        details.info > summary{
-            cursor: pointer;
-            color:#cfcfcf;
-            font-weight:600;
-            margin-bottom: 8px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-        }
-
-        .top-nav {
-            text-align: center;
-            margin-top: 10px;
-            color: #888;
-            font-size: 0.9em;
-        }
-
-        .top-nav a {
-            color: #4a9eff;
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            .input-row {
-                grid-template-columns: 1fr;
-            }
-            .container {
-<<<<<<< HEAD
-                padding: 20px;
-=======
-                padding: 20px 14px 28px;
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            }
-            h1 {
-                font-size: 2em;
-            }
-<<<<<<< HEAD
-=======
-            .cards{
-                grid-template-columns: 1fr;
-            }
-=======
-            background: #0a0a0a; color: #e5e5e5; min-height: 100vh;
-            margin: 0; padding: 20px;
->>>>>>> c669c362bdf4ca0b359883c6e21da770750fcf93
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-        }
-    </style>
-    <meta name="description" content="PixelSize - Calcul de taille de pixel pour orthovues à partir du DPI et de l'échelle.">
+    @media (max-width: 768px) {
+      .input-row{ grid-template-columns:1fr; }
+      .container{ padding:20px 14px 28px; }
+      h1{ font-size:2em; }
+      .cards{ grid-template-columns:1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-section">
-            <img src="pixelsize_logo.svg" alt="450ppm Logo" class="logo">
-        </div>
-<<<<<<< HEAD
-
-        <h1>PixelSize · Taille de Pixel</h1>
-        <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 0.9em;">Pour le calcul d'orthovues</p>
-=======
-<<<<<<< HEAD
-
-        <h1>PixelSize · Taille de Pixel</h1>
-        <p class="subtitle">Calculez la taille de pixel en mm, cm ou m à partir du DPI et de l’échelle.</p>
-
-        <details class="info">
-            <summary>À propos</summary>
-            Cette application calcule la taille de pixel nécessaire pour une orthovue à partir de la résolution (DPI) et de l’échelle (1/X). Pas de données collectées, tout est calculé localement dans votre navigateur.
-        </details>
-=======
-        <h1>Photogrammétrie · Calcul GSD</h1>
-        <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 0.9em;">Calculez la taille de pixel au sol</p>
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-
-        <div class="info">
-            <strong>Information :</strong> Cette application calcule la taille de pixel nécessaire pour une orthovue en fonction de l'échelle désirée et de la résolution (DPI).
-        </div>
->>>>>>> c669c362bdf4ca0b359883c6e21da770750fcf93
-
-        <form id="pixelCalculator">
-            <div class="input-row">
-                <div class="form-group">
-<<<<<<< HEAD
-                    <label for="dpi">Résolution (DPI)</label>
-                    <input type="number" id="dpi" name="dpi" placeholder="Ex: 150" min="1" step="0.1" required>
-=======
-<<<<<<< HEAD
-                    <label for="dpi">Résolution (DPI)</label>
-                    <input type="number" id="dpi" name="dpi" placeholder="Ex: 150" min="1" step="0.1" required inputmode="decimal">
-                </div>
-                <div class="form-group">
-                    <label for="scale">Échelle désirée (1/X)</label>
-                    <input type="number" id="scale" name="scale" placeholder="Ex: 20" min="1" step="0.1" required inputmode="decimal">
-=======
-                    <label for="focalLength">Distance focale (mm)</label>
-                    <input type="number" id="focalLength" name="focalLength" placeholder="Ex: 50" min="1" step="0.1" required>
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-                </div>
-                <div class="form-group">
-                    <label for="scale">Échelle désirée (1/X)</label>
-                    <input type="number" id="scale" name="scale" placeholder="Ex: 20" min="1" step="0.1" required>
-                </div>
-            </div>
-<<<<<<< HEAD
-            <div class="chips" aria-label="Raccourcis">
-                <span class="chip" data-dpi="150">DPI 150</span>
-                <span class="chip" data-dpi="300">DPI 300</span>
-                <span class="chip" data-scale="10">1/10</span>
-                <span class="chip" data-scale="20">1/20</span>
-                <span class="chip" data-scale="50">1/50</span>
-=======
-
-            <div class="form-group">
-                <label for="megapixels">Nombre de mégapixels</label>
-                <select id="megapixels" name="megapixels" required>
-                    <option value="">Sélectionnez le nombre de MP</option>
-                    <option value="12">12 MP (4000×3000)</option>
-                    <option value="16">16 MP (4608×3456)</option>
-                    <option value="20">20 MP (5472×3648)</option>
-                    <option value="24">24 MP (6000×4000)</option>
-                    <option value="30">30 MP (6720×4480)</option>
-                    <option value="36">36 MP (7360×4912)</option>
-                    <option value="42">42 MP (7952×5304)</option>
-                    <option value="45">45 MP (8256×5504)</option>
-                    <option value="50">50 MP (8688×5792)</option>
-                    <option value="61">61 MP (9504×6336)</option>
-                    <option value="custom">Résolution personnalisée</option>
-                </select>
-            </div>
-
-            <div id="customResolution" class="form-group" style="display: none;">
-                <div class="input-row">
-                    <div class="form-group">
-                        <label for="resolutionX">Résolution horizontale (px)</label>
-                        <input type="number" id="resolutionX" name="resolutionX" placeholder="Ex: 6000" min="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="resolutionY">Résolution verticale (px)</label>
-                        <input type="number" id="resolutionY" name="resolutionY" placeholder="Ex: 4000" min="1">
-                    </div>
->>>>>>> c669c362bdf4ca0b359883c6e21da770750fcf93
-                </div>
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            </div>
-            <div class="chips" aria-label="Raccourcis">
-                <span class="chip" data-dpi="150">DPI 150</span>
-                <span class="chip" data-dpi="300">DPI 300</span>
-                <span class="chip" data-scale="10">1/10</span>
-                <span class="chip" data-scale="20">1/20</span>
-                <span class="chip" data-scale="50">1/50</span>
-            </div>
-
-            <button type="submit" class="calculate-btn">Calculer la Taille de Pixel</button>
-        </form>
-
-<<<<<<< HEAD
-        
-
-        <div id="results" class="results" role="region" aria-live="polite">
-            <div class="tabs" role="tablist" aria-label="Unités">
-                <button class="tab" role="tab" id="tab-mm" data-unit="mm" aria-controls="panel-mm" aria-selected="true">Millimètres (mm)</button>
-                <button class="tab" role="tab" id="tab-cm" data-unit="cm" aria-controls="panel-cm" aria-selected="false">Centimètres (cm)</button>
-                <button class="tab" role="tab" id="tab-m" data-unit="m" aria-controls="panel-m" aria-selected="false">Mètres (m)</button>
-            </div>
-            <div class="kpi" id="primaryKpi" aria-describedby="kpiUnit">
-                <span class="number" id="primaryValue">-</span>
-                <span class="unit" id="kpiUnit">mm</span>
-            </div>
-            <div class="cards">
-                <div class="card" id="panel-mm" role="tabpanel" aria-labelledby="tab-mm">
-                    <h4>Millimètres</h4>
-                    <div class="value" id="valMm">-</div>
-                </div>
-                <div class="card" id="panel-cm" role="tabpanel" aria-labelledby="tab-cm">
-                    <h4>Centimètres</h4>
-                    <div class="value" id="valCm">-</div>
-                </div>
-                <div class="card" id="panel-m" role="tabpanel" aria-labelledby="tab-m">
-                    <h4>Mètres</h4>
-                    <div class="value" id="valM">-</div>
-                </div>
-            </div>
-            <div class="formula">
-                Formule: pixel_cm = (2.54 / DPI) × Échelle ; pixel_mm = pixel_cm × 10 ; pixel_m = pixel_cm / 100
-            </div>
-=======
-        <div class="formula">
-            <strong>Formule utilisée :</strong><br>
-            Taille de pixel (cm) = (2.54 / DPI) × Échelle<br>
-            Taille de pixel (m) = Taille de pixel (cm) / 100
-        </div>
-
-        <div id="results" class="results">
-            <h3 style="margin-bottom: 20px; color: #ffffff;">Résultats du calcul</h3>
-<<<<<<< HEAD
-            <div class="result-item">
-                <span class="result-label">Résolution (DPI)</span>
-                <span class="result-value" id="resultDpi">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Distance (2.54 cm)</span>
-                <span class="result-value">2,54</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Sur 1 cm</span>
-                <span class="result-value" id="resultPerCm">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Échelle 1/X</span>
-                <span class="result-value" id="resultScale">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Taille de pixel (cm)</span>
-                <span class="result-value" id="resultPixelCm">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Taille de pixel (m)</span>
-                <span class="result-value" id="resultPixelM">-</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">Arrondi 6 chiffres (m)</span>
-                <span class="result-value" id="resultRounded">-</span>
-            </div>
-=======
-            <div class="result-item"><span class="result-label">Capteur sélectionné</span><span class="result-value" id="resultSensor">-</span></div>
-            <div class="result-item"><span class="result-label">Distance focale (mm)</span><span class="result-value" id="resultFocal">-</span></div>
-            <div class="result-item"><span class="result-label">Distance au sol (m)</span><span class="result-value" id="resultAltitude">-</span></div>
-            <div class="result-item"><span class="result-label">Résolution (px)</span><span class="result-value" id="resultResolution">-</span></div>
-            <div class="result-item"><span class="result-label">Taille de pixel capteur (mm)</span><span class="result-value" id="resultPixelSensor">-</span></div>
-            <div class="result-item"><span class="result-label">GSD (cm)</span><span class="result-value" id="resultPixelGroundCm">-</span></div>
-            <div class="result-item"><span class="result-label">GSD (m)</span><span class="result-value" id="resultPixelGroundM">-</span></div>
-            <div class="result-item"><span class="result-label">Couverture au sol (m)</span><span class="result-value" id="resultCoverage">-</span></div>
->>>>>>> c669c362bdf4ca0b359883c6e21da770750fcf93
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-        </div>
+  <div class="container">
+    <div class="logo-section">
+      <img src="pixelsize_logo.svg" alt="450ppm Logo" class="logo">
     </div>
 
-    <script>
-<<<<<<< HEAD
-        document.getElementById('pixelCalculator').addEventListener('submit', function(e) {
-=======
-<<<<<<< HEAD
-        const $ = (id) => document.getElementById(id);
-        const tabs = [];
-        let activeUnit = 'mm';
+    <h1>PixelSize · Taille de Pixel</h1>
+    <p class="subtitle">Calculez la taille de pixel en mm, cm ou m à partir du DPI et de l’échelle.</p>
 
-        function format(value, digits){
-            return value.toLocaleString('fr-FR', {
-                minimumFractionDigits: digits,
-                maximumFractionDigits: digits
-            });
-        }
+    <details class="info">
+      <summary>À propos</summary>
+      Cette application calcule la taille de pixel nécessaire pour une orthovue à partir de la résolution (DPI) et de l’échelle (1/X). Aucune donnée n’est collectée, tout est calculé localement.
+    </details>
 
-        function compute(dpi, scale){
-            const pixelCm = (2.54 / dpi) * scale; // cm
-            const pixelMm = pixelCm * 10;         // mm
-            const pixelM  = pixelCm / 100;        // m
-            return { pixelCm, pixelMm, pixelM };
-        }
+    <form id="pixelCalculator">
+      <div class="input-row">
+        <div class="form-group">
+          <label for="dpi">Résolution (DPI)</label>
+          <input type="number" id="dpi" name="dpi" placeholder="Ex: 150" min="1" step="0.1" required inputmode="decimal">
+        </div>
+        <div class="form-group">
+          <label for="scale">Échelle désirée (1/X)</label>
+          <input type="number" id="scale" name="scale" placeholder="Ex: 20" min="1" step="0.1" required inputmode="decimal">
+        </div>
+      </div>
+      <div class="chips" aria-label="Raccourcis">
+        <span class="chip" data-dpi="150">DPI 150</span>
+        <span class="chip" data-dpi="300">DPI 300</span>
+        <span class="chip" data-scale="10">1/10</span>
+        <span class="chip" data-scale="20">1/20</span>
+        <span class="chip" data-scale="50">1/50</span>
+      </div>
 
-        function render(dpi, scale){
-            if (isNaN(dpi) || isNaN(scale) || dpi <= 0 || scale <= 0) {
-                return;
-            }
-            const { pixelCm, pixelMm, pixelM } = compute(dpi, scale);
-            // Valeurs secondaires
-            $('valMm').textContent = format(pixelMm, 3) + ' mm';
-            $('valCm').textContent = format(pixelCm, 4) + ' cm';
-            $('valM').textContent  = format(pixelM, 6)  + ' m';
+      <button type="submit" class="calculate-btn">Calculer la Taille de Pixel</button>
+    </form>
 
-            // Valeur principale selon l’onglet
-            let primary = '-', unit = activeUnit;
-            if (activeUnit === 'mm') primary = format(pixelMm, 3);
-            if (activeUnit === 'cm') primary = format(pixelCm, 4);
-            if (activeUnit === 'm')  primary = format(pixelM, 6);
-            $('primaryValue').textContent = primary;
-            $('kpiUnit').textContent = unit;
+    <div id="results" class="results" role="region" aria-live="polite">
+      <div class="tabs" role="tablist" aria-label="Unités">
+        <button class="tab" role="tab" id="tab-mm" data-unit="mm" aria-controls="panel-mm" aria-selected="true">Millimètres (mm)</button>
+        <button class="tab" role="tab" id="tab-cm" data-unit="cm" aria-controls="panel-cm" aria-selected="false">Centimètres (cm)</button>
+        <button class="tab" role="tab" id="tab-m" data-unit="m" aria-controls="panel-m" aria-selected="false">Mètres (m)</button>
+      </div>
+      <div class="kpi" id="primaryKpi" aria-describedby="kpiUnit">
+        <span class="number" id="primaryValue">-</span>
+        <span class="unit" id="kpiUnit">mm</span>
+      </div>
+      <div class="cards">
+        <div class="card" id="panel-mm" role="tabpanel" aria-labelledby="tab-mm">
+          <h4>Millimètres</h4>
+          <div class="value" id="valMm">-</div>
+        </div>
+        <div class="card" id="panel-cm" role="tabpanel" aria-labelledby="tab-cm">
+          <h4>Centimètres</h4>
+          <div class="value" id="valCm">-</div>
+        </div>
+        <div class="card" id="panel-m" role="tabpanel" aria-labelledby="tab-m">
+          <h4>Mètres</h4>
+          <div class="value" id="valM">-</div>
+        </div>
+      </div>
+      <div class="formula">
+        Formule: pixel_cm = (2.54 / DPI) × Échelle ; pixel_mm = pixel_cm × 10 ; pixel_m = pixel_cm / 100
+      </div>
+    </div>
+  </div>
 
-            $('results').classList.add('show');
-        }
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let activeUnit = 'mm';
 
-        function setActiveUnit(unit){
-            activeUnit = unit;
-            document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.unit === unit)));
-            const dpi = parseFloat($('dpi').value);
-            const scale = parseFloat($('scale').value);
-            render(dpi, scale);
-            // URL partageable
-            history.replaceState(null, '', '#' + unit);
-        }
+    function format(value, digits){
+      return value.toLocaleString('fr-FR', {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      });
+    }
 
-        document.getElementById('pixelCalculator').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const dpi = parseFloat($('dpi').value);
-            const scale = parseFloat($('scale').value);
-            if (isNaN(dpi) || isNaN(scale) || dpi <= 0 || scale <= 0) {
-                alert('Veuillez entrer des valeurs valides pour DPI et Échelle');
-=======
-        const sensors = {
-            'fullframe': { width: 36, height: 24, name: 'Full Frame (36×24 mm)' },
-            'aps-c': { width: 22.3, height: 14.9, name: 'APS-C Canon (22.3×14.9 mm)' },
-            'aps-c-nikon': { width: 23.5, height: 15.6, name: 'APS-C Nikon/Sony (23.5×15.6 mm)' },
-            'micro43': { width: 17.3, height: 13.0, name: 'Micro 4/3 (17.3×13.0 mm)' },
-            '1inch': { width: 13.2, height: 8.8, name: '1" (13.2×8.8 mm)' }
-        };
+    function compute(dpi, scale){
+      const pixelCm = (2.54 / dpi) * scale; // cm
+      const pixelMm = pixelCm * 10;         // mm
+      const pixelM  = pixelCm / 100;        // m
+      return { pixelCm, pixelMm, pixelM };
+    }
 
-        const resolutions = {
-            '12': { x: 4000, y: 3000 },
-            '16': { x: 4608, y: 3456 },
-            '20': { x: 5472, y: 3648 },
-            '24': { x: 6000, y: 4000 },
-            '30': { x: 6720, y: 4480 },
-            '36': { x: 7360, y: 4912 },
-            '42': { x: 7952, y: 5304 },
-            '45': { x: 8256, y: 5504 },
-            '50': { x: 8688, y: 5792 },
-            '61': { x: 9504, y: 6336 }
-        };
+    function render(dpi, scale){
+      if (isNaN(dpi) || isNaN(scale) || dpi <= 0 || scale <= 0) {
+        return;
+      }
+      const { pixelCm, pixelMm, pixelM } = compute(dpi, scale);
+      $('valMm').textContent = format(pixelMm, 3) + ' mm';
+      $('valCm').textContent = format(pixelCm, 4) + ' cm';
+      $('valM').textContent  = format(pixelM, 6)  + ' m';
 
-        document.getElementById('capteur').addEventListener('change', function() {
-            const customSensor = document.getElementById('customSensor');
-            customSensor.style.display = this.value === 'custom' ? 'block' : 'none';
-        });
+      let primary = '-', unit = activeUnit;
+      if (activeUnit === 'mm') primary = format(pixelMm, 3);
+      if (activeUnit === 'cm') primary = format(pixelCm, 4);
+      if (activeUnit === 'm')  primary = format(pixelM, 6);
+      $('primaryValue').textContent = primary;
+      $('kpiUnit').textContent = unit;
 
-        document.getElementById('megapixels').addEventListener('change', function() {
-            const customResolution = document.getElementById('customResolution');
-            customResolution.style.display = this.value === 'custom' ? 'block' : 'none';
-        });
+      $('results').classList.add('show');
+    }
 
-        document.getElementById('photogrammetrieCalculator').addEventListener('submit', function(e) {
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-            e.preventDefault();
+    function setActiveUnit(unit){
+      activeUnit = unit;
+      document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.unit === unit)));
+      const dpi = parseFloat($('dpi').value);
+      const scale = parseFloat($('scale').value);
+      render(dpi, scale);
+      history.replaceState(null, '', '#' + unit);
+    }
 
-            const dpi = parseFloat(document.getElementById('dpi').value);
-            const scale = parseFloat(document.getElementById('scale').value);
+    document.getElementById('pixelCalculator').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const dpi = parseFloat($('dpi').value);
+      const scale = parseFloat($('scale').value);
+      if (isNaN(dpi) || isNaN(scale) || dpi <= 0 || scale <= 0) {
+        alert('Veuillez entrer des valeurs valides pour DPI et Échelle');
+        return;
+      }
+      render(dpi, scale);
+    });
 
-<<<<<<< HEAD
-            if (isNaN(dpi) || isNaN(scale) || dpi <= 0 || scale <= 0) {
-                alert('Veuillez entrer des valeurs valides pour DPI et Échelle');
-=======
-            if (!capteurType || isNaN(focalLength) || isNaN(altitude) || !megapixels) {
-                alert('Veuillez remplir tous les champs obligatoires');
-                return;
-            }
-            if (focalLength <= 0 || altitude <= 0) {
-                alert('Veuillez entrer des valeurs positives');
->>>>>>> c669c362bdf4ca0b359883c6e21da770750fcf93
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-                return;
-            }
-            render(dpi, scale);
-        });
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => setActiveUnit(tab.dataset.unit));
+    });
 
-<<<<<<< HEAD
-            const distance = 2.54; // cm
-            const perCm = dpi / distance;
-            const pixelSizeCm = distance / dpi * scale;
-            const pixelSizeM = pixelSizeCm / 100;
-            const rounded = Math.round(pixelSizeM * 1000000) / 1000000; // 6 décimales
-=======
-<<<<<<< HEAD
-        // Onglets
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => setActiveUnit(tab.dataset.unit));
-        });
+    document.querySelectorAll('.chip').forEach(ch => {
+      ch.addEventListener('click', () => {
+        if (ch.dataset.dpi) $('dpi').value = ch.dataset.dpi;
+        if (ch.dataset.scale) $('scale').value = ch.dataset.scale;
+        const dpi = parseFloat($('dpi').value);
+        const scale = parseFloat($('scale').value);
+        render(dpi, scale);
+      });
+    });
 
-        // Raccourcis (chips)
-        document.querySelectorAll('.chip').forEach(ch => {
-            ch.addEventListener('click', () => {
-                if (ch.dataset.dpi) $('dpi').value = ch.dataset.dpi;
-                if (ch.dataset.scale) $('scale').value = ch.dataset.scale;
-                const dpi = parseFloat($('dpi').value);
-                const scale = parseFloat($('scale').value);
-                render(dpi, scale);
-            });
-        });
+    ['dpi','scale'].forEach(id => {
+      $(id).addEventListener('input', () => {
+        const dpi = parseFloat($('dpi').value);
+        const scale = parseFloat($('scale').value);
+        render(dpi, scale);
+      });
+    });
 
-        // Recalcul live
-        ['dpi','scale'].forEach(id => {
-            $(id).addEventListener('input', () => {
-                const dpi = parseFloat($('dpi').value);
-                const scale = parseFloat($('scale').value);
-                render(dpi, scale);
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            $('dpi').value = '150';
-            $('scale').value = '20';
-            const hash = (location.hash || '').replace('#','');
-            if (['mm','cm','m'].includes(hash)) {
-                setActiveUnit(hash);
-            } else {
-                setActiveUnit('mm');
-            }
-            render(150, 20);
-=======
-            let sensorWidth, sensorHeight, sensorName;
-            if (capteurType === 'custom') {
-                sensorWidth = parseFloat(document.getElementById('sensorWidth').value);
-                sensorHeight = parseFloat(document.getElementById('sensorHeight').value);
-                sensorName = `Personnalisé (${sensorWidth}×${sensorHeight} mm)`;
-                if (isNaN(sensorWidth) || isNaN(sensorHeight) || sensorWidth <= 0 || sensorHeight <= 0) {
-                    alert('Veuillez entrer des dimensions de capteur valides');
-                    return;
-                }
-            } else {
-                const sensor = sensors[capteurType];
-                sensorWidth = sensor.width;
-                sensorHeight = sensor.height;
-                sensorName = sensor.name;
-            }
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-
-            document.getElementById('resultDpi').textContent = dpi;
-            document.getElementById('resultPerCm').textContent = perCm.toFixed(8);
-            document.getElementById('resultScale').textContent = scale;
-            document.getElementById('resultPixelCm').textContent = pixelSizeCm.toFixed(9);
-            document.getElementById('resultPixelM').textContent = pixelSizeM.toFixed(9);
-            document.getElementById('resultRounded').textContent = rounded.toFixed(6);
-
-            document.getElementById('results').classList.add('show');
-        });
-
-        document.querySelectorAll('.chip').forEach(function(ch) {
-            ch.addEventListener('click', function() {
-                if (ch.dataset.dpi) document.getElementById('dpi').value = ch.dataset.dpi;
-                if (ch.dataset.scale) document.getElementById('scale').value = ch.dataset.scale;
-                document.getElementById('pixelCalculator').dispatchEvent(new Event('submit', { cancelable: true }));
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-<<<<<<< HEAD
-            document.getElementById('dpi').value = '150';
-            document.getElementById('scale').value = '20';
-=======
-            document.getElementById('capteur').value = 'fullframe';
-            document.getElementById('focalLength').value = '50';
-            document.getElementById('altitude').value = '100';
-            document.getElementById('megapixels').value = '24';
->>>>>>> c669c362bdf4ca0b359883c6e21da770750fcf93
->>>>>>> ba3ccf2c28951120d5a5500d531d59df5ca71c64
-        });
-    </script>
+    document.addEventListener('DOMContentLoaded', function() {
+      $('dpi').value = '150';
+      $('scale').value = '20';
+      const hash = (location.hash || '').replace('#','');
+      if (['mm','cm','m'].includes(hash)) {
+        setActiveUnit(hash);
+      } else {
+        setActiveUnit('mm');
+      }
+      render(150, 20);
+    });
+  </script>
 </body>
 </html>
-
-
-
